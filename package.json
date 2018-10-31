@@ -1,9 +1,9 @@
 {
   "name": "restful",
   "version": "0.0.1",
-  "description": "egg restful demo",
+  "description": "Exchange manager system restful api",
   "dependencies": {
-    "acccount-password": "^1.0.0",
+    "account-password": "^1.0.7",
     "dora-error": "0.0.1",
     "egg": "^2.2.1",
     "egg-cors": "^2.1.1",
@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "egg-bin dev",
+    "dev": "egg-bin dev -p 4000",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",

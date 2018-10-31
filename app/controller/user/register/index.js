@@ -1,4 +1,4 @@
-const Account = require('acccount-password');
+const Account = require('account-password');
 
 module.exports = app => {
     class UserRegister extends app.Controller {

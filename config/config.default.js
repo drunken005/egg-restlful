@@ -25,6 +25,7 @@ module.exports = appInfo => {
         mongoose: {
             url: 'mongodb://127.0.0.1/coinxp',
             options: {
+                useNewUrlParser: true,
                 autoReconnect: true,
                 reconnectTries: 10, // Never stop trying to reconnect
                 reconnectInterval: 500, // Reconnect every 500ms
