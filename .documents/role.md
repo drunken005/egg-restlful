@@ -22,8 +22,7 @@
                         ],
                         "_id": "R020001", //角色ID
                         "name": "超级管理员",
-                        "desc": "包含所有权限的系统管理员",
-                        "link_exchange": "NO" //是否关联交易所
+                        "desc": "包含所有权限的系统管理员"
                     },
                     ...
                 ]
@@ -45,8 +44,7 @@
                 "roles": [],
                 "_id": "R020006",
                 "name": "Test",
-                "desc": "test",
-                "link_exchange": "NO"
+                "desc": "test"
             }
        }
     ```
@@ -97,8 +95,7 @@
                 "roles": [],
                 "_id": "R020006",
                 "name": "Test",
-                "desc": "test",
-                "link_exchange": "NO"
+                "desc": "test"
             }
        }
     ```

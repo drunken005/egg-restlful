@@ -110,13 +110,6 @@
                     "status": "disable",
                     "num": "C0100004"
                 },
-                "exchanges": [ //exchange bind list
-                    {
-                        "_id": "0500001",
-                        "name": "exchange1"
-                    },
-                    ...
-                ],
                 "roles": [ //roles bind list
                     {
                         "_id": "R020001",
