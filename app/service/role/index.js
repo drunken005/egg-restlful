@@ -7,8 +7,7 @@ module.exports = app => {
             const {ctx} = this;
             ctx.validate({
                 name: {type: 'string'},
-                desc: {type: 'string'},
-                link_exchange: {type: 'string'}
+                desc: {type: 'string'}
             }, data);
             data = _.assign({
                 _id: 'R0' + await ctx.generatorId('role')

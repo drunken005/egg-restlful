@@ -29,8 +29,7 @@ module.exports = app => {
             let data = ctx.request.body;
             ctx.validate({
                 name: {type: 'string'},
-                desc: {type: 'string'},
-                link_exchange: {type: 'string'}
+                desc: {type: 'string'}
             }, data);
             let res = await ctx.service.role.index.createRole(data);
             this.success(res);

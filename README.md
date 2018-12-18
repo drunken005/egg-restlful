@@ -157,7 +157,7 @@ var admin = {
                 "name" : "admin",
                 "mobile" : "21312321",
                 "status" : "normal",
-                "num" : "C10000",
+                "num" : "C010000",
                 "__v" : 0,
                 "role" : "R020001"
             }
