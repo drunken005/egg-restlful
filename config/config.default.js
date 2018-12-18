@@ -1,6 +1,6 @@
 'use strict';
 
-const {MONGO_URL, EOS_POINT} = process.env;
+const {MONGO_URL} = process.env;
 const LOGIN_EXPIRATION_DAYS = 3;
 const appInfo = {
     app_key: '2V7LIL815RCQOGJ6FJ5BG15A86AD9X1XHTQ1G6L84CM9LB1SRSGRCWYAZYYON5HD',

@@ -21,10 +21,6 @@ ENV EGG_SERVER_ENV=prod
 # MONGO_URL: mongodb url
 ENV MONGO_URL=
 
-# EOS_POINT: Eoe node point
-ENV EOS_POINT=
-# Eos access account private key
-
 RUN yarn build
 
 CMD ["node", "index.js"]

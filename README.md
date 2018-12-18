@@ -4,7 +4,7 @@
 ### Production env
 
 ```bash
-    1. Set ./dockerfile MONGO_URL,EOS_POINT value
+    1. Set ./dockerfile MONGO_URL value
     docker build ...
     docker run ...
 ```
