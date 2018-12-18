@@ -48,5 +48,10 @@ module.exports = [
         index: 9,
         name: 'illegal-credential-token',
         message: '`credentialToken` 中包含非法字符'
+    },
+    {
+        index: 10,
+        name: 'status-error',
+        message: '账号状态异常请联系管理员'
     }
 ];

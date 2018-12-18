@@ -1,6 +1,5 @@
 module.exports = app => {
-    class ExchangeController extends app.Controller {
-
+    class RoleController extends app.Controller {
         async index() {
             const {ctx} = this;
             let {condition, option} = ctx.formatQueryParams();
@@ -8,7 +7,7 @@ module.exports = app => {
                 page: {type: 'number', required: true},
                 pageSize: {type: 'number', required: true}
             }, option);
-            let {list, total} = await ctx.service.exchange.index.exchangeList(condition, option);
+            let {list, total} = await ctx.service.role.index.roleList(condition, option);
             this.success({
                 count: list.length,
                 page: option.page,
@@ -17,27 +16,30 @@ module.exports = app => {
             });
         }
 
-        async create() {
+        async show(){
+            const {ctx} = this;
+            const {id} = ctx.params;
+            let data = await ctx.service.role.index.getRoleMenusMatch(id);
+            this.success(data);
+
+        }
+
+        async create(){
             const {ctx} = this;
             let data = ctx.request.body;
             ctx.validate({
-                name: {type: 'string', require: true},
-                short_name: {type: 'string', require: true},
-                logo: {type: 'string', require: true},
-                address: {type: 'string', require: true},
-                contact_name: {type: 'string', require: true},
-                contact_mobile: {type: 'string', require: true},
-                website: {type: 'string', require: true},
-                account: {type: 'string', require: true},
+                name: {type: 'string'},
+                desc: {type: 'string'},
+                link_exchange: {type: 'string'}
             }, data);
-            let res = await ctx.service.exchange.index.insertExchange(data);
+            let res = await ctx.service.role.index.createRole(data);
             this.success(res);
         }
 
         async edit() {
             const {ctx} = this;
             const {id} = ctx.params;
-            let data = await ctx.service.exchange.index.getExchangeById(id, {createdAt: 0});
+            let data = await ctx.service.role.index.getRoleById(id);
             this.success(data);
         }
 
@@ -49,11 +51,11 @@ module.exports = app => {
                 modifier: {type: 'object', required: true}
             }, body);
             let {modifier} = body;
-            let data = await ctx.service.exchange.index.updateExchangeById(id, modifier);
+            let data = await ctx.service.role.index.updateRoleById(id, modifier);
             this.success(data);
         }
 
     }
 
-    return ExchangeController;
+    return RoleController;
 };

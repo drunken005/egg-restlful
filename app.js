@@ -1,7 +1,12 @@
+// const EosAgentCore = require('./app/lib/eos_agent/EosAgentCore');
+
 module.exports = app => {
 
     app.beforeStart(async () => {
         //do something
+        // let {eos} = app.config;
+        // const cxpEos = EosAgentCore(eos.account, eos.httpEndpoint, eos.keyProvider);
+        // app.cxpEox = cxpEos;
     });
 
     class BaseController extends app.Controller {
@@ -10,7 +15,7 @@ module.exports = app => {
                 success: true,
                 msg: 'OK',
                 statusCode: 200,
-                data,
+                data: app.formatData(data),
             };
         }
 

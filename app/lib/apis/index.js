@@ -1,3 +1,4 @@
 module.exports = {
-    routerApi: require('./router')
+    routerApi: require('./router'),
+    cryptoApi: require('./crypto')
 };

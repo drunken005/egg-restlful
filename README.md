@@ -1,15 +1,24 @@
-# egg-restlful
-egg restful api demo
+# egg restful api
 
-## useage
+## deploy
+### Production env
+
 ```bash
-npm install
-npm start
+    1. Set ./dockerfile MONGO_URL,EOS_POINT value
+    docker build ...
+    docker run ...
 ```
-## Interface implemented
+
+### Local env
+
+```bash
+    .\startup.bat
 ```
-[ UNSUBSCRIBE - /app ]
-[    GET - /app/home ]
-[   POST - /app/user/login ]
-[   POST - /app/user/register ]
-```
+
+### API
+
+#### [accounts api](https://github.com/drunken005/egg-restlful/.documents/user.md)
+#### [roles api](https://github.com/drunken005/egg-restlful/.documents/role.md)
+
+NOTE
+The path contains `/api` and requires token authentication for request

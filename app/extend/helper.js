@@ -28,6 +28,20 @@ module.exports = {
             return result.concat([{$limit: limit}, {$skip: skip}]);
         }
         return _.assign({skip, limit}, options);
+    },
+
+    getClientIp() {
+        let {ctx} = this;
+        let req = ctx.req;
+        let ip = req.headers['x-forwarded-for'] ||
+            (req.connection && req.connection.remoteAddress) ||
+            (req.socket && req.socket.remoteAddress) ||
+            req.connection && req.connection.socket && req.connection.socket.remoteAddress;
+        if (!ip) {
+            return null;
+        }
+        ip = ip.split('ffff:');
+        return ip.length > 1 ? ip[1] : ip[0];
     }
 
 };

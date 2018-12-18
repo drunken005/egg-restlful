@@ -1,11 +1,9 @@
-const _ = require('lodash');
 module.exports = app => {
-    class UserLogin extends app.Controller {
+    class UserUpdatePassword extends app.Controller {
         async create() {
-            let {ctx} = this;
+            const {ctx} = this;
             let data = ctx.request.body;
             ctx.validate({
-                username: {type: 'string', required: true},
                 password: {type: 'object', required: true}
             }, data);
 
@@ -14,10 +12,10 @@ module.exports = app => {
                 digest: {type: 'string', required: true}
             }, data.password);
 
-            let result = await ctx.service.user.index.loginWithPassword(data);
+            let result = await ctx.service.user.index.resetPassword(data);
             this.success(result);
         }
     }
 
-    return UserLogin;
+    return UserUpdatePassword;
 };

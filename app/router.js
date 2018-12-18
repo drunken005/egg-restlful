@@ -2,8 +2,7 @@ const {apis} = require('./lib');
 module.exports = app => {
     const noAuthCheck = [
         'home',
-        'user.login',
-        'user.register'
+        'user.login'
     ];
     apis.routerApi.registerRouter(app, noAuthCheck);
 };

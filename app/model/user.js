@@ -4,7 +4,7 @@ module.exports = app => {
 
     const UserSchema = new Schema({
         _id: {type: String},
-        createdAt: {type: Date},
+        num: {type: String},
         services: {
             password: {bcrypt: {type: String}},
             resume: {
@@ -18,11 +18,17 @@ module.exports = app => {
                 }
             }
         },
+        name: {type: String},
         username: {type: String},
         mobile: {type: String},
-        loginAt: {type: Date},
-        realName: {type: String}
+        role: {type: String},
+        exchange: {type: String},
+        status: {type: String},
+        realName: {type: String},
+        firstLogin: {type: Boolean},
+        createdAt: {type: Date}
+
     });
 
-    return mongoose.model('User', UserSchema);
+    return mongoose.model('User', UserSchema, 'users');
 };

@@ -20,5 +20,4 @@ exports.mongoose = {
 exports.cors = {
     enable: true,
     package: 'egg-cors',
-    allowMethods: 'GET,POST,PUT,DELETE'
 };

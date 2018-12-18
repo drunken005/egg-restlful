@@ -10,7 +10,6 @@ module.exports = appInfo => {
                 headerName: 'x-csrf-token',
                 ignoreJSON: true
             },
-            domainWhiteList: ['http://localhost:7001', "http://127.0.0.1:7001", "http://faucet.coinxp.io"]
         }
     }
 };

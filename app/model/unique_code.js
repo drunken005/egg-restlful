@@ -7,5 +7,5 @@ module.exports = app => {
             _id: Number
         }
     });
-    return mongoose.model('UniqueCode', schema);
+    return mongoose.model('UniqueCode', schema,'unique_code');
 };
