@@ -76,55 +76,49 @@ var roleDocs2 = [
                         "group" : "M30000"
                     },
                     {
-                        "_id" : "M30001-01",
-                        "name" : "role",
-                        "desc" : "角色&权限",
-                        "group" : "M30001"
-                    },
-                    {
                         "_id" : "M30001-00",
                         "name" : "account",
                         "desc" : "账号管理",
                         "group" : "M30001"
                     },
                     {
-                        "_id" : "M30001-02",
-                        "name" : "logs",
-                        "desc" : "操作日志",
+                        "_id" : "M30001-01",
+                        "name" : "role",
+                        "desc" : "角色&权限",
                         "group" : "M30001"
                     },
                     {
-                        "_id" : "M30001-03",
+                        "_id" : "M30001-02",
                         "name" : "createAccount",
                         "desc" : "创建系统账号",
                         "group" : "M30001"
                     },
                     {
-                        "_id" : "M30001-04",
+                        "_id" : "M30001-03",
                         "name" : "setStatus",
                         "desc" : "账号状态管理",
                         "group" : "M30001"
                     },
                     {
-                        "_id" : "M30001-05",
+                        "_id" : "M30001-04",
                         "name" : "roleSettings",
                         "desc" : "系统角色设置",
                         "group" : "M30001"
                     },
                     {
-                        "_id" : "M30001-06",
+                        "_id" : "M30001-05",
                         "name" : "roleMenus",
                         "desc" : "菜单与权限管理",
                         "group" : "M30001"
                     },
                     {
-                        "_id" : "M30001-07",
+                        "_id" : "M30001-06",
                         "name" : "oplog",
                         "desc" : "操作日志查询",
                         "group" : "M30001"
                     },
                     {
-                        "_id" : "M30001-08",
+                        "_id" : "M30001-07",
                         "name" : "initializePassword",
                         "desc" : "初始化密码",
                         "group" : "M30001"
