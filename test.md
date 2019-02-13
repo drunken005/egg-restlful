@@ -3,12 +3,12 @@
 
 * [Install and import](#Install)
 * [Apis](#apis)
-    * [createKofoId](#kofo.createKofoId)
+    * [createKofoId](#*Kofo.createKofoId*)
     * [Init sdk](#kofo.init)
     * [subscribe](#kofo.subscribe)
-    * [signatureCallback](#kofo.signatureCallback)
+    * [signatureCallback](#*kofo.signatureCallback*)
 * [client存储数据和KEY定义](#client存储数据和KEY定义)
-* [版本记录](#client存储数据和KEY定义)
+* [版本记录](#版本记录)
 
 ## Install and import
 
@@ -205,7 +205,7 @@ ps:
 为了安全性建议客户端需对sdk通过insertData返回的数据做持久化存储或者加密处理，SDK不会对用户的私钥或者任何敏感数据进行存储和传播
 
 * * *
-
+## 版本记录
 | Version | Date |
 | --- | --- |
 | 1.0.0 | 2019.2.2 |
