@@ -5,7 +5,7 @@
 * [Apis](#apis)
     * [createKofoId](#*Kofo.createKofoId*)
     * [Init sdk](#kofo.init)
-    * [subscribe](#kofo.subscribe)
+    * [subscribe](#消息订阅)
     * [signatureCallback](#*kofo.signatureCallback*)
 * [client存储数据和KEY定义](#client存储数据和KEY定义)
 * [版本记录](#版本记录)
