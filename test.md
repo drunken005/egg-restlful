@@ -1,101 +1,213 @@
-# 文档索引
-* [工程目录](#工程目录)
-* [安装步骤](#安装步骤)
-* [基础环境](#基础环境)
-* [安装依赖](#安装依赖)
-* [查看依赖](#查看依赖)
-* [创建表](#创建表)
-* [启动服务](#启动服务)
-* [发布版本记录](#发布版本记录)
+# KOFO SDK APIS 
+# 目录
 
+* [Install and import](#Install)
+* [Apis](#apis)
+    * [createKofoId](#kofo.createKofoId)
+    * [Init sdk](#kofo.init)
+    * [subscribe](#kofo.subscribe)
+    * [signatureCallback](#kofo.signatureCallback)
+* [client存储数据和KEY定义](#client存储数据和KEY定义)
+* [版本记录](#client存储数据和KEY定义)
 
-# 工程目录
-工程主要包EOS相关代码，包含gateway，block，confirm及callback四个进程
+## Install and import
 
-## 源码目录
-| Folder  | Contents |
-|---------|----------|
-|./common|公共组件
-|./config|配置文件
-|./connections|连接方法
-|./dao|SQL方法
-|./logs|工程日志
-|./mapping|数据映射
-|./middlewares|中间件方法
-|./models|数据方法
-|./node_modules|模块依赖
-|./report|单测报告
-|./routes|路由视图
-|./schemas|路由参数
-|./services|服务入口
-|./sql|工程SQL
-|./test|单测代码
-|./tool|工程工具
+```$xslt
+npm install kofo-sdk --save
+```
+```$xslt
+const KOFO = require('kofo-sdk');
 
-# 安装步骤
-
-## 基础环境
-```js
-$ node --version
-v11.2.0
-
-$ npm ls -g --depth 0
-/usr/local/lib
-├── cnpm@6.0.0
-├── npm@6.4.1
-└── pm2@3.2.2
+import KOFO from 'kofo-sdk';
+``` 
+## APIS
+### *Kofo.createKofoId* 生成kofoId 和 secret
+e.g
+```$xslt
+const obj = Kofo.createkofoId();
+obj:
+{ kofoId: '032557ae0441f8674a14100c4eed25ba4b50cc0c6b083c1fa15da82d02318486a3',
+  secret: '8bf218ba7311136ce81659e970c3a5dd6db567c8ab83d88b5989c37e5c53a49e' 
+}
 ```
 
-## 安装依赖
-```js
-npm install --production
+### *Kofo.init* 初始化SDK
+**`Kofo.init`** params **options：**
+* **mqUrl**        *`String required`*  Mqtt server url
+* **mqOptions**  *`Object required`*  Mqtt connection options
+  * **username** *`String required`*  Mqtt server username
+  * **password** *`String required`*  Mqtt server password
+  * **kofoId** *`String required`*   kofo id
+* **gateway**    *`String required`*  Block chain gateway server url
+* **settlement** *`String required`*  Status server url
+* **insertData** *`Function required`*  Client provide data storage method, e.g: map `storage(key, value)`
+* **readData**   *`Function required`*  Client provide data reading method, e.g: `read(key)`
+* **debug**     *`Boolean optional`*  Debug log, default `false`
+
+e.g
+
+```$xslt
+let dataMap = new Map();
+const insertData = function (key, value) {
+    dataMap.set(key, value)
+};
+const readData = function (key) {
+    return dataMap.get(key)
+};
+const kofo = Kofo.init(options);
+options:
+    mqUrl: 'http://127.0.0.1:1883',
+    mqOptions: {
+        username: 'user',
+        password: 'pwd',
+        kofoId: 'kofo_sdk_client'
+    },
+    gateway: "http://gateway.com",
+    settlement: "http://settlement.com",
+    insertData: insertData,
+    readData: readData,
+    debug: true
+```
+### *Kofo.subscribe* 消息订阅
+#### 消息类型:
+##### 1.kofo_tx_signature(交易签名事件)
+返回数据:
+* **type** 签名事件类型
+    * **`maker_hash_lock_tx_sign`**  Maker send hash lock transaction signature
+    * **`taker_hash_lock_tx_sign`**  Taker send hash lock transaction signature
+    * **`maker_withdraw_tx_sign`**   Maker send withdraw transaction signature
+    * **`taker_withdraw_tx_sign`**   Taker send withdraw transaction signature
+    * **`maker_refund_tx_sign`**    Maker send refund transaction signature
+    * **`taker_refund_tx_sign`**    Taker send refund transaction signature
+    * **`maker_approve_tx_sign`**  Maker send approve transaction signature (Erc20 token)
+    * **`taker_approve_tx_sign`**  Taker send approve transaction signature (Erc20 token)
+* **chain** 交易对应链
+    * ETH
+    * EOS
+    * Zilliqa
+* **currency** 交易对应币种
+    * ETH
+    * EOS
+    * ZIL 
+* **publicKey**  交易发起的公钥
+* **settlementId** 结算订单ID
+* **waitSign** 待签名对象，各个链的返回类型不一样，详情参照下面
+    * ETH --> String
+    * EOS --> Array
+    * Zilliqa --> JSON String
+    
+e.g
+```bash
+let signatureTxhandler = function(data){
+        //等待客户端对该交易进行签名，并且回调到KOFO SDK
+        //根据 chain, currency 字段实现不同链的签名，签名的字段是 waitSign
+        //客户端在这里根据不同的场景可以实现 同步 或者 异步 签名回调
+}
+kofo.subscribe('kofo_tx_signature', signatureTxhandler);
 ```
 
-## 查看依赖
-```js
-$ npm ls --depth 0
-eos-gateway@1.0.0 /data
-+-- bignumber.js@8.0.1
-+-- biguint-format@1.0.0
-+-- enum@2.5.0
-+-- eosjs@20.0.0-beta3
-+-- eureka-js-client@4.4.2
-+-- flake-idgen@1.1.0
-+-- jsonschema@1.2.4
-+-- koa@2.6.1
-+-- koa-bodyparser@3.2.0
-+-- koa-router@7.4.0
-+-- koa2-ratelimit@0.7.0
-+-- lodash@4.17.11
-+-- log4js@3.0.6
-+-- moment@2.22.2
-+-- moment-timezone@0.5.23
-+-- mysql2@1.6.2
-+-- node-fetch@2.3.0
-+-- request@2.88.0
-+-- request-promise@4.2.2
-+-- sequelize@4.41.2
-`-- uuid@3.3.2
+##### 2.kofo_status_notice(各状态通知事件)
+返回数据:
+* **type** 签名事件类型
+    * **`init_sdk`** sdk初始化状态事件
+    * 
+    * **`pre_hash_lock`** 发送锁定交易前
+    * **`submit_hash_lock`** 已经提交锁定交易
+    * **`success_hash_lock`** 锁定交易成功
+    * **`fail_hash_lock`** 锁定交易失败
+    * 
+    * **`pre_withdraw`** 提现交易发送前
+    * **`submit_withdraw`** 提现交易提交后
+    * **`success_withdraw`** 提现交易成功
+    * **`fail_withdraw`** 提现交易失败
+    * 
+    * **`pre_refund`** 赎回交易发送前
+    * **`submit_refund`** 赎回交易提交后
+    * **`success_refund`** 赎回交易成功
+    * **`fail_refund`** 赎回交易失败
+    * 
+    * **`pre_approve`** 授权交易发送前
+    * **`submit_approve`** 授权交易提交后
+    * **`success_approve`** 授权交易成功
+    * **`fail_approve`** 授权交易失败
+    * 
+    * **`complete`** 交易完成
+* **settlementId** 结算订单ID
+* **roleEnum** 订单标示
+* **txHash** 交易hash
+* **message** 消息
+e.g
+```bash
+function listener(data){
+    //do something
+}
+kofo.subscribe('kofo_status_notice', listener);
 ```
 
-## 创建表
-    执行./sql目录下`eos_gateway.sql`在本地建立相应表
+### *Kofo.signatureCallback* 交易签名回调
+**params**
+* **type** 签名事件类型
+* **chain** 交易对应链
+* **currency** 交易对应币种
+* **settlementId** 结算订单ID
+* **signedObj** 签名后的结果，`类型需要跟消息返回原类型一致`
 
-## 启动服务
-```js
-pm2 start start.config.js
-┌──────────────┬────┬─────────┬──────┬─────┬────────┬─────────┬────────┬──────┬───────────┬──────┬──────────┐
-│ App name     │ id │ version │ mode │ pid │ status │ restart │ uptime │ cpu  │ mem       │ user │ watching │
-├──────────────┼────┼─────────┼──────┼─────┼────────┼─────────┼────────┼──────┼───────────┼──────┼──────────┤
-│ eos-block    │ 0  │ 1.0.0   │ fork │ 18  │ online │ 0       │ 37s    │ 0%   │ 39.6 MB   │ root │ disabled │
-│ eos-callback │ 1  │ 1.0.0   │ fork │ 24  │ online │ 0       │ 37s    │ 0%   │ 39.9 MB   │ root │ disabled │
-│ eos-confirm  │ 2  │ 1.0.0   │ fork │ 32  │ online │ 0       │ 37s    │ 0%   │ 35.6 MB   │ root │ disabled │
-│ eos-gateway  │ 3  │ 1.0.0   │ fork │ 38  │ online │ 0       │ 37s    │ 0.9% │ 53.6 MB   │ root │ disabled │
-└──────────────┴────┴─────────┴──────┴─────┴────────┴─────────┴────────┴──────┴───────────┴──────┴──────────┘
+e.g
+```bash
+const sign = function(tx){
+    //调用对应链的签名算法进行签名
+    return signHash(tx);
+}
+let signatureTxhandler = function(data){
+    const {type, chain, currency, settlementId, publicKey, waitSign} = data;
+    //等待客户端对该交易进行签名，并且回调到KOFO SDK
+    //根据 chain, currency 字段实现不同链的签名，签名的字段是 waitSign
+    //客户端在这里根据不同的场景可以实现同步或异步签名回调
+    const signedObj = sign(waitSign);
+    kofo.signatureCallback(type, chain, currency, settlementId, signedObj);
+}
+kofo.subscribe('kofo_tx_signature', signatureTxhandler);
 ```
 
+* * *
+## client存储数据和KEY定义
 
-# 发布版本记录
+#### `roleEnum = maker | taker`
+* `{settlementId}_maker_create_refund_tx_and_h_locker`       ***<u>`Boolean`</u>***
+* `{settlementId}_maker_create_refund_tx_and_h`             ***<u>`Object`</u>***
+* `{settlementId}_maker_preimage`                          ***<u>`String`</u>***
+* `{settlementId}_taker_receive_h_and_create_refund_tx_locker`  ***<u>`Boolean`</u>***
+* `{settlementId}_taker_receive_h_and_create_refund_tx`  ***<u>`Object`</u>***
+* 
+* `{settlementId}_{roleEnum}_hvalue` ***<u>`String`</u>***
+* 
+* `{settlementId}_{roleEnum}_submit_hash_lock_tx_locker` ***<u>`Boolean`</u>***
+* `{settlementId}_{roleEnum}_submit_hash_lock_tx` ***<u>`Object`</u>***
+* `{settlementId}_{roleEnum}_lock_tx_hash` ***<u>`Object`</u>***
+* 
+* `{settlementId}_{roleEnum}_submit_withdraw_tx_locker` ***<u>`Boolean`</u>***
+* `{settlementId}_{roleEnum}_submit_withdraw_tx` ***<u>`Object`</u>***
+* `{settlementId}_{roleEnum}_withdraw_tx_hash` ***<u>`Object`</u>***
+* 
+* `{settlementId}_{roleEnum}_submit_refund_tx_locker` ***<u>`Boolean`</u>***
+* `{settlementId}_{roleEnum}_submit_refund_tx` ***<u>`Object`</u>***
+* `{settlementId}_{roleEnum}_refund_tx_hash` ***<u>`Object`</u>***
+* 
+* `{settlementId}_{roleEnum}_submit_approve_tx_locker` ***<u>`Boolean`</u>***
+* `{settlementId}_{roleEnum}_submit_approve_tx` ***<u>`Object`</u>***
+* `{settlementId}_{roleEnum}_approve_tx_hash` ***<u>`Object`</u>***
 
-## [1.0.0]2018-12-24
-项目初始化
+
+* * *
+
+
+ps:
+为了安全性建议客户端需对sdk通过insertData返回的数据做持久化存储或者加密处理，SDK不会对用户的私钥或者任何敏感数据进行存储和传播
+
+* * *
+
+| Version | Date |
+| --- | --- |
+| 1.0.0 | 2019.2.2 |
+| 1.0.1 | 2019.2.11 |
+| 1.0.2 | 2019.2.12 |
