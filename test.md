@@ -3,10 +3,10 @@
 
 * [Install and import](#Install)
 * [Apis](#apis)
-    * [createKofoId](#*Kofo.createKofoId*)
+    * [createKofoId](#Kofo.createKofoId)
     * [Init sdk](#kofo.init)
-    * [subscribe](#消息订阅)
-    * [signatureCallback](#*kofo.signatureCallback*)
+    * [subscribe](#Kofo.subscribe)
+    * [signatureCallback](#kofo.signatureCallback)
 * [client存储数据和KEY定义](#client存储数据和KEY定义)
 * [版本记录](#版本记录)
 
@@ -68,7 +68,7 @@ options:
     readData: readData,
     debug: true
 ```
-### *Kofo.subscribe* 消息订阅
+### Kofo.subscribe 消息订阅
 #### 消息类型:
 ##### 1.kofo_tx_signature(交易签名事件)
 返回数据:
